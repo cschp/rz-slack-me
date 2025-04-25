@@ -39,7 +39,7 @@ The pipeline will run in two scenarios:
 To run the Docker image locally, use the following command:
 
 ```bash
-docker run -e SLACK_SECRET=your_slack_secret your_dockerhub_username/rz-sl-me:tag
+docker run -e SLACK_SECRET=your_slack_secret your_dockerhub_username/rz-slack-me:tag
 ```
 
 Replace:
