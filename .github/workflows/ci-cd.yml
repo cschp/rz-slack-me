@@ -58,6 +58,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rz-sl-me:${{ github.ref_name }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rz-slack-me:${{ github.ref_name }}
           build-args: |
             SLACK_SECRET=${{ secrets.SLACK_SECRET }} 
