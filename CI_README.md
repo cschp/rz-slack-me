@@ -1,6 +1,6 @@
-# RZ Slack Me - CI/CD Pipeline Documentation
+### RZ Slack Me - CI/CD Pipeline Documentation
 
-## Local Development Setup
+### Local Development Setup
 
 ### Prerequisites
 - Docker
@@ -23,7 +23,7 @@ Expected output:
 SUCCESS! A message was sent
 ```
 
-## CI/CD Pipeline Setup
+### CI/CD Pipeline Setup
 
 ### GitHub Repository Configuration
 
@@ -71,7 +71,7 @@ Replace:
 - `your_dockerhub_username` with your Docker Hub username
 - `v1.0.0` with the specific version tag you want to run
 
-## Security Considerations
+### Security Considerations
 
 1. **Secret Management**
    - All sensitive information is stored as GitHub secrets
@@ -88,7 +88,7 @@ Replace:
    - Each deployment is versioned and traceable
    - Manual workflow triggers are available for testing
 
-## Troubleshooting
+### Troubleshooting
 
 ### Common Issues
 
