@@ -1,12 +1,12 @@
-# CI/CD Pipeline Setup Instructions
+### CI/CD Pipeline Setup Instructions
 
-## Prerequisites
+### Prerequisites
 - GitHub repository with the application code
 - Docker Hub account
 - GitHub repository secrets configured
 
-## GitHub Secrets Configuration
-The following secrets need to be configured in your GitHub repository:
+### GitHub Secrets Configuration
+The following secrets need to be configured in your GitHub repository to run CI there:
 - `DOCKERHUB_USERNAME`: Your Docker Hub username
 - `DOCKERHUB_TOKEN`: Your Docker Hub access token
 - `SLACK_SECRET`: Your Slack webhook secret
@@ -17,12 +17,12 @@ To configure these secrets:
 3. Click "New repository secret"
 4. Add each secret with its corresponding value
 
-## Pipeline Triggers
+### Pipeline Triggers
 The pipeline will run in two scenarios:
 1. When a new git tag is pushed to the repository
 2. When manually triggered through the GitHub Actions interface
 
-## Pipeline Steps
+### Pipeline Steps
 1. **Build and Test**
    - Sets up PHP 8.2 and Composer 2
    - Installs dependencies
@@ -35,7 +35,7 @@ The pipeline will run in two scenarios:
    - This step only runs on tag pushes
    - The image tag will match the git tag
 
-## Running the Docker Image Locally
+### Running the Docker Image Locally
 To run the Docker image locally, use the following command:
 
 ```bash
@@ -47,13 +47,13 @@ Replace:
 - `your_dockerhub_username` with your Docker Hub username
 - `tag` with the specific version tag you want to run
 
-## Security Considerations
+### Security Considerations
 1. All sensitive information (Docker Hub credentials, Slack secret) is stored as GitHub secrets
 2. The production Docker image does not include development dependencies
 3. The Slack secret is passed as a build argument and environment variable securely
 4. The pipeline only pushes to Docker Hub when a git tag is pushed, ensuring controlled deployments
 
-## Troubleshooting
+### Troubleshooting
 If you encounter any issues:
 1. Check the GitHub Actions logs for detailed error messages
 2. Verify that all required secrets are properly configured
