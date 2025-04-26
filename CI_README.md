@@ -1,28 +1,51 @@
-# CI/CD Pipeline Setup Instructions
+# RZ Slack Me - CI/CD Pipeline Documentation
 
-## Prerequisites
-- GitHub repository with the application code
-- Docker Hub account
-- GitHub repository secrets configured
+## Local Development Setup
 
-## GitHub Secrets Configuration
-The following secrets need to be configured in your GitHub repository:
-- `DOCKERHUB_USERNAME`: Your Docker Hub username
-- `DOCKERHUB_TOKEN`: Your Docker Hub access token
-- `SLACK_SECRET`: Your Slack webhook secret
+### Prerequisites
+- Docker
+- Docker Compose (optional, for local development)
 
-To configure these secrets:
-1. Go to your GitHub repository
-2. Navigate to Settings > Secrets and variables > Actions
-3. Click "New repository secret"
-4. Add each secret with its corresponding value
+### Running Locally with Docker
 
-## Pipeline Triggers
+1. Build the Docker image:
+```bash
+docker build -t rz-slack-me --build-arg SLACK_SECRET=your_test_secret .
+```
+
+2. Run the container:
+```bash
+docker run -e SLACK_SECRET=your_test_secret rz-slack-me
+```
+
+Expected output:
+```
+SUCCESS! A message was sent
+```
+
+## CI/CD Pipeline Setup
+
+### GitHub Repository Configuration
+
+1. Configure the following secrets in your GitHub repository:
+   - `DOCKERHUB_USERNAME`: Your Docker Hub username
+   - `DOCKERHUB_TOKEN`: Your Docker Hub access token
+   - `SLACK_SECRET`: Your Slack webhook secret
+
+2. To add secrets:
+   - Go to your GitHub repository
+   - Navigate to Settings > Secrets and variables > Actions
+   - Click "New repository secret"
+   - Add each secret with its corresponding value
+
+### Pipeline Triggers
+
 The pipeline will run in two scenarios:
 1. When a new git tag is pushed to the repository
 2. When manually triggered through the GitHub Actions interface
 
-## Pipeline Steps
+### Pipeline Steps
+
 1. **Build and Test**
    - Sets up PHP 8.2 and Composer 2
    - Installs dependencies
@@ -35,27 +58,58 @@ The pipeline will run in two scenarios:
    - This step only runs on tag pushes
    - The image tag will match the git tag
 
-## Running the Docker Image Locally
-To run the Docker image locally, use the following command:
+### Running the Production Image
+
+To run the production Docker image:
 
 ```bash
-docker run -e SLACK_SECRET=your_slack_secret your_dockerhub_username/rz-slack-me:tag
+docker run -e SLACK_SECRET=your_slack_secret your_dockerhub_username/rz-slack-me:v1.0.0
 ```
 
 Replace:
 - `your_slack_secret` with your actual Slack webhook secret
 - `your_dockerhub_username` with your Docker Hub username
-- `tag` with the specific version tag you want to run
+- `v1.0.0` with the specific version tag you want to run
 
 ## Security Considerations
-1. All sensitive information (Docker Hub credentials, Slack secret) is stored as GitHub secrets
-2. The production Docker image does not include development dependencies
-3. The Slack secret is passed as a build argument and environment variable securely
-4. The pipeline only pushes to Docker Hub when a git tag is pushed, ensuring controlled deployments
+
+1. **Secret Management**
+   - All sensitive information is stored as GitHub secrets
+   - Secrets are never exposed in logs or build artifacts
+   - The SLACK_SECRET is passed securely through build arguments
+
+2. **Production Image Security**
+   - Development dependencies are excluded from the final image
+   - Only necessary PHP extensions are installed
+   - The image is built from official, trusted base images
+
+3. **Deployment Control**
+   - Docker image pushes only occur on git tag pushes
+   - Each deployment is versioned and traceable
+   - Manual workflow triggers are available for testing
 
 ## Troubleshooting
-If you encounter any issues:
-1. Check the GitHub Actions logs for detailed error messages
-2. Verify that all required secrets are properly configured
-3. Ensure your Docker Hub credentials have the necessary permissions
-4. Verify that the Slack webhook URL is valid and accessible 
+
+### Common Issues
+
+1. **Build Failures**
+   - Check GitHub Actions logs for detailed error messages
+   - Verify PHP version compatibility
+   - Ensure all required secrets are configured
+
+2. **Docker Hub Authentication**
+   - Verify Docker Hub credentials
+   - Check repository permissions
+   - Ensure the token has push access
+
+3. **Application Errors**
+   - Check the SLACK_SECRET environment variable
+   - Verify network connectivity to Slack
+   - Review application logs
+
+### Support
+
+For additional support:
+1. Review the GitHub Actions documentation
+2. Check the Laravel documentation for PHP-specific issues
+3. Consult the Docker documentation for container-related problems 
